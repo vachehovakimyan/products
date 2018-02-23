@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<products>
+    <database>
+        <!-- Адресс базы данных  -->
+        <host>127.0.0.1</host>
+        <!-- Порт базы данных  -->
+        <port>3306</port>
+        <!-- Название схемы  -->
+        <database>products_db</database>
+        <!-- Логин базы данных  -->
+        <username>root</username>
+        <!-- Пароль  -->
+        <password>7GboGpid</password>
+        <!-- Автоматически восстанавливать соединение  -->
+        <autoreconnect>true</autoreconnect>
+        <!-- Использовать шифрование  -->
+        <usessl>false</usessl>
+        <!-- Использовать юникод  -->
+        <useunicode>yes</useunicode>
+        <characterencoding>UTF-8</characterencoding>
+    </database>
+</products>
