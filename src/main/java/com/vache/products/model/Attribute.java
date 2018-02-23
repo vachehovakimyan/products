@@ -30,6 +30,7 @@ public class Attribute {
 
     // Идентификатор продукта
     @Column(name = "product")
+    @JsonIgnore
     private Integer product;
 
     public Integer getId() {

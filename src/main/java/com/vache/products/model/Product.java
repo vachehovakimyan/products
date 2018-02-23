@@ -1,6 +1,8 @@
 package com.vache.products.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,8 +27,9 @@ public class Product {
     private Integer categoryId;
 
     // Список свойств, которыми обладает продукт
-    @Transient
-    private List<Attribute> attributeList;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product", referencedColumnName = "id")
+    private List<Attribute> attributeList = new ArrayList<>();
 
     public List<Attribute> getAttributeList() {
         return attributeList;
@@ -60,4 +63,13 @@ public class Product {
         this.categoryId = categoryId;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", categoryId=" + categoryId +
+                ", attributeList=" + Arrays.toString(attributeList.toArray()) +
+                '}';
+    }
 }

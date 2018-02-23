@@ -7,6 +7,7 @@ import com.vache.products.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("productService")
@@ -28,17 +29,8 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product findProductById(Integer id) {
-
         // Получаем обьект продукта по идентификатору
-        Product product = productRepository.findProductById(id);
-
-        // Получаем список свойств, которое имеет продукт
-        List<Attribute> attributeList = attributeRepository.findAllByProduct(product.getId());
-
-        // Добавляем список свойств в обьект продукта
-        product.setAttributeList(attributeList);
-
-        return product;
+        return productRepository.findProductById(id);
     }
 
     @Override
@@ -47,18 +39,17 @@ public class ProductServiceImpl implements ProductService{
         // Получаем список свойств продукта из полученного обьекта
         List<Attribute> attributeList = product.getAttributeList();
 
-        // Добавляем в базу данных обьект продукта
-        productRepository.save(product);
-
-        // Получаем идентификатор только что созданного в базе обьекта продукта
-        Integer lastAddedProductId = productRepository.getMaxId();
+        // Добавляем в базу данных обьект продукта и получаем конечные продукт с выставленным идентификатором
+        product.setAttributeList(new ArrayList<>());
+        Product finalProduct = productRepository.save(product);
 
         // Пробегаем по всем свойствам продукта и добавляем в них идентификатор продукта
-        attributeList.forEach(attribute -> {
-            attribute.setProduct(lastAddedProductId);
-            // сохраняем каждое свойство в базу
-            attributeRepository.save(attribute);
-        });
+        attributeList.forEach(attribute -> attribute.setProduct(finalProduct.getId()));
+
+        // Добавляем все свойства в конечный продукт
+        finalProduct.setAttributeList(attributeList);
+
+        productRepository.save(finalProduct);
 
     }
 
@@ -70,21 +61,13 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public void update(Product product) {
 
-        // Обновляем продукт
-        productRepository.update(product.getName(), product.getCategoryId(), product.getId());
-
         // Удаляем старые атрибуты продукта
         attributeRepository.deleteAllByProduct(product.getId());
 
-        // Подучаем новые атрибуты
-        List<Attribute> attributeList = product.getAttributeList();
+        // Выставляем идентификаторы продукта
+        product.getAttributeList().forEach(attribute -> attribute.setProduct(product.getId()));
 
-        // Созраняем в базу новые атрибуты
-        attributeList.forEach(attribute -> attribute.setProduct(product.getId()));
-
-        attributeRepository.save(attributeList);
-
-
+        productRepository.save(product);
 
     }
 }

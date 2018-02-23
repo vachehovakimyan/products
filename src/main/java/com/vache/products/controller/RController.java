@@ -2,8 +2,10 @@ package com.vache.products.controller;
 
 import com.vache.products.model.Category;
 import com.vache.products.model.Product;
+import com.vache.products.repository.ProductRepository;
 import com.vache.products.service.CategoryService;
 import com.vache.products.service.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

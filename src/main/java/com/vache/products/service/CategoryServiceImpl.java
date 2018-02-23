@@ -12,25 +12,13 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final ProductService productService;
 
-    public CategoryServiceImpl(@Qualifier("categoryRepository") CategoryRepository categoryRepository, ProductService productService) {
+    public CategoryServiceImpl(@Qualifier("categoryRepository") CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-        this.productService = productService;
     }
 
     @Override
     public List<Category> findAll() {
-
-        // Получаем список всех категорий
-        List<Category> categoryList = categoryRepository.findAll();
-
-        // Пробегаем по списку категорий и добавляем в каждую список продуктов, которые к ней относятся
-        categoryList.forEach(category -> {
-            List<Product> productList = productService.findAllByCategoryId(category.getId());
-            category.setProductList(productList);
-        });
-
-        return categoryList;
+        return categoryRepository.findAll();
     }
 }

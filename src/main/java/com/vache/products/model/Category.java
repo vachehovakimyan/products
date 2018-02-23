@@ -22,7 +22,8 @@ public class Category {
     private String name;
 
     // Список всех продуктов в категории
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category", referencedColumnName = "id")
     private List<Product> productList;
 
     public List<Product> getProductList() {
