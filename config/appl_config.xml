@@ -10,7 +10,7 @@
         <!-- Логин базы данных  -->
         <username>root</username>
         <!-- Пароль  -->
-        <password>7GboGpid</password>
+        <password></password>
         <!-- Автоматически восстанавливать соединение  -->
         <autoreconnect>true</autoreconnect>
         <!-- Использовать шифрование  -->
